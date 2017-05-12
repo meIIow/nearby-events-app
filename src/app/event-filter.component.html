@@ -1,0 +1,64 @@
+<h3>THIS IS THE EVENT FILTER</h3>
+<div>
+  <div>
+    <label>name: </label>
+    <input [(ngModel)]="currentSearch.name" placeholder="name">
+  </div>
+  <div>
+    <label>terms: </label>
+    <input [(ngModel)]="currentSearch.terms" placeholder="term">
+  </div>
+  <div>
+    <label>Starts By: </label>
+    <input [(ngModel)]="currentSearch.startTime" placeholder="starts by">
+  </div>
+  <div>
+    <label>Ends By: </label>
+    <input [(ngModel)]="currentSearch.endTime" placeholder="ends by">
+  </div>
+  <div>
+    <label>Within this many Miles: </label>
+    <input [(ngModel)]="currentSearch.maxDistance" placeholder="miles">
+  </div>
+  <div>
+    <label>of: </label>
+    <input [(ngModel)]="currentSearch.centerCoordinates" placeholder="center">
+  </div>
+</div>
+
+<button (click)="filterEvents();">
+    Filter
+</button>
+
+<button (click)="getEvents();">
+    Get
+</button>
+
+<button (click)="backToFetcher();">
+    Back
+</button>
+
+
+<div>{{testNumber}}</div>
+<div>4</div>
+
+<div *ngIf="events">
+  Have Events!
+</div>
+
+<div *ngIf="selectedEvent">
+  An Event is Selected!
+  {{selectedEvent.name}}
+</div>
+
+<event-map
+  [events]="events"
+  [selectedEvent]="selectedEvent"
+  [currentSearch]="currentSearch">
+</event-map>
+
+<event-list
+  [events]="events"
+  [selectedEvent]="selectedEvent"
+  (selectionEvent)="updateSelectedEvent($event)">
+</event-list>

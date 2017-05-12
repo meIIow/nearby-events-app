@@ -1,0 +1,23 @@
+<h4> Event List </h4>
+<div *ngIf="events">
+  Have Events in List!
+</div>
+
+<div *ngIf="selectedEvent">
+  An Event is Selected in List!
+  {{selectedEvent.name}}
+</div>
+
+<ul class="events">
+  <li *ngFor="let event of events"
+    [class.selected]="event === selectedEvent"
+    (click)="onSelect(event)">
+    <span>{{event.name}}</span>
+  </li>
+</ul>
+
+<li *ngFor="let hero of heroes"
+    [class.selected]="hero === selectedHero"
+    (click)="onSelect(hero)">
+  <span class="badge">{{hero.id}}</span> {{hero.name}}
+</li>

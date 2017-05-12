@@ -1,0 +1,23 @@
+<h4>Event Map</h4>
+<div *ngIf="events">
+  Have Events in Map!
+</div>
+
+<div *ngIf="selectedEvent">
+  An Event is Selected in Map!
+  {{selectedEvent.name}}
+</div>
+
+<div *ngIf="currentSearch">
+  The Map knows the Search!
+  {{currentSearch.maxDistance}}
+  {{currentSearch.centerCoordinates}}
+</div>
+
+<body>
+    <div id="googleMap" style="width:500px;height:380px;"></div>
+</body>
+
+<event-detail
+  [selectedEvent]="selectedEvent">
+</event-detail>
