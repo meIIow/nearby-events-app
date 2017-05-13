@@ -30,7 +30,7 @@
     Filter
 </button>
 
-<button (click)="getEvents();">
+<button (click)="getEventsAndDefault();">
     Get
 </button>
 
@@ -54,6 +54,8 @@
 <event-map
   [events]="events"
   [selectedEvent]="selectedEvent"
+  [currentGeo]="geocodePacket"
+  [tempZoom]="mapSize"
   [currentSearch]="currentSearch">
 </event-map>
 

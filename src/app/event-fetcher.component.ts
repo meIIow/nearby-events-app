@@ -45,7 +45,7 @@ export class EventFetcherComponent  implements OnInit{
       centerCoordinates: 'YYY',
       lat: "",
       lng: "",
-      maxDistance: 6,
+      maxDistance: 1600, // 1 mile default
       startTime: 0,
       endTime: 0,
       name: 'ZZZ',
@@ -210,8 +210,12 @@ export class EventFetcherComponent  implements OnInit{
     //this.myTestService.pushEvent(this.allEvents[0]);
 
     this.myTestService.pushEvent(this.fetcherSearch)
-      .then((event: any ) => {
-        this.recAddToDB(0);
+      .then((storedSearch: any ) => {
+        this.myTestService.pushEvent(this.geocodePacket)
+          .then((storedGeo: any ) => {
+            this.recAddToDB(0);
+          }
+        );
       }
     );
 
@@ -342,12 +346,12 @@ export class EventFetcherComponent  implements OnInit{
         self.fetcherSearch.lat = self.geocodePacket.geometry.location.lat();
         self.fetcherSearch.lng = self.geocodePacket.geometry.location.lng();
       }
-      var a = geoResults.geometry.location.lat();
-      var b = geoResults.geometry.location.lng();
+      self.fetcherSearch.lat = geoResults.geometry.location.lat();
+      self.fetcherSearch.lng = geoResults.geometry.location.lng();
       console.log("geo packet");
       console.log(self.geocodePacket);
-      console.log(a);
-      console.log(b);
+      console.log(self.fetcherSearch.lat);
+      console.log(self.fetcherSearch.lng);
       self.cd.detectChanges();
     }
 

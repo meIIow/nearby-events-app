@@ -33,11 +33,45 @@ var EventFilterComponent = (function () {
             lng: '',
             centerDate: new Date(),
         };
+        this.mapSize = 12;
+        this.getEventsAndDefault();
     };
-    EventFilterComponent.prototype.getEvents = function () {
+    EventFilterComponent.prototype.getEventsAndDefault = function () {
         var _this = this;
-        this.myTestService.getEvents().then(function (events) { return _this.events = events; });
+        this.myTestService.getEvents().then(function (data) {
+            if (data.length > 6) {
+                _this.events = data.slice(6);
+            }
+            if (data.length > 5) {
+                _this.currentSearch = data[4];
+                _this.geocodePacket = data[5];
+            }
+            console.log(_this.events);
+            console.log(_this.currentSearch);
+        });
         this.testNumber = 6;
+    };
+    EventFilterComponent.prototype.filterEvents2 = function () {
+        var _this = this;
+        this.myTestService.getEvents().then(function (data) {
+            if (data.length > 6) {
+                _this.events = data.slice(6);
+            }
+            var tempEvents = [];
+            for (var eventToCheck in _this.events) {
+                if (_this.checkEvent(eventToCheck)) {
+                    tempEvents.push(eventToCheck);
+                }
+            }
+            _this.events = tempEvents;
+        });
+    };
+    EventFilterComponent.prototype.checkEvent = function (event) {
+        // check for name
+        // check for terms
+        // check for start time
+        // check for end time
+        return true;
     };
     EventFilterComponent.prototype.filterEvents = function () {
         //does nothing so far

@@ -28,8 +28,12 @@ var EventMapComponent = (function () {
         var lat = 51.508742;
         var lng = -0.120850;
         if (this.currentGeo) {
-            lat = this.currentGeo.geometry.location.lat();
-            lng = this.currentGeo.geometry.location.lng();
+            //lat = this.currentGeo.geometry.location.lat();
+            //lng = this.currentGeo.geometry.location.lng();
+            lat = parseFloat(this.currentSearch.lat);
+            lng = parseFloat(this.currentSearch.lng);
+            console.log(lat);
+            console.log(lng);
         }
         var mapProp = {
             center: new google.maps.LatLng(lat, lng),
@@ -68,6 +72,17 @@ var EventMapComponent = (function () {
                 draggable: true,
                 map: map
             });
+            if (this.selectedEvent) {
+                console.log("map knows an event was selected");
+                var eventLatLang = new google.maps.LatLng(parseFloat(this.selectedEvent.place.location.latitude), parseFloat(this.selectedEvent.place.location.longitude));
+                console.log(this.selectedEvent.place.location.latitude);
+                console.log(this.selectedEvent.place.location.longitude);
+                var eventMarker = new google.maps.Marker({
+                    position: eventLatLang,
+                    title: "Selected Event",
+                    map: map
+                });
+            }
             var circle = new google.maps.Circle({
                 map: map,
                 radius: this.currentSearch.maxDistance,
@@ -81,7 +96,7 @@ var EventMapComponent = (function () {
 }());
 __decorate([
     core_1.Input(),
-    __metadata("design:type", Event)
+    __metadata("design:type", Object)
 ], EventMapComponent.prototype, "selectedEvent", void 0);
 __decorate([
     core_1.Input(),

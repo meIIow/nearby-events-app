@@ -10,8 +10,8 @@ declare var google: any;
   styleUrls: ['./event-map.component.css'],
 })
 export class EventMapComponent  implements OnChanges{
-  @Input() selectedEvent: Event;
-  @Input() events: Event[];
+  @Input() selectedEvent: any;
+  @Input() events: any[];
   @Input() currentSearch: SearchPacket;
   @Input() currentGeo: any;
   @Input() tempZoom: number;
@@ -33,8 +33,14 @@ export class EventMapComponent  implements OnChanges{
     var lat = 51.508742;
     var lng = -0.120850;
     if (this.currentGeo) {
-      lat = this.currentGeo.geometry.location.lat();
-      lng = this.currentGeo.geometry.location.lng();
+      //lat = this.currentGeo.geometry.location.lat();
+      //lng = this.currentGeo.geometry.location.lng();
+
+      lat = parseFloat(this.currentSearch.lat);
+      lng = parseFloat(this.currentSearch.lng);
+
+      console.log(lat);
+      console.log(lng);
     }
 
     var mapProp = {
@@ -79,6 +85,26 @@ export class EventMapComponent  implements OnChanges{
         draggable: true,
         map: map
       });
+
+      if (this.selectedEvent) {
+
+        console.log("map knows an event was selected");
+
+
+        var eventLatLang = new google.maps.LatLng(
+          parseFloat(this.selectedEvent.place.location.latitude),
+          parseFloat(this.selectedEvent.place.location.longitude)
+        )
+
+        console.log(this.selectedEvent.place.location.latitude);
+        console.log(this.selectedEvent.place.location.longitude);
+
+        var eventMarker = new google.maps.Marker({
+          position: eventLatLang,
+          title: "Selected Event",
+          map: map
+        });
+      }
 
       var circle = new google.maps.Circle({
         map: map,
