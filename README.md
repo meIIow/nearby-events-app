@@ -1,11 +1,15 @@
 # nearby-events-app
 A web app that finds public FB Events near you
 
+
 A demo-only app that can be used to find and filter FB events near a specified location.
 Uses Angular2  with FB and Google Maps API integration.
 
-How it works:
 
+This project is a work-in-progress under active development. Can currently fetch events from FB based on input criteria verified by Google Maps, write them to temporary DB, and then retrieve them. Currently adding functionality to the component for filtering and viewing events. Also there is currently no styling.
+
+
+How it works:
 
 1. Fetch events
 
@@ -24,6 +28,8 @@ Find events near your location within parameters
   (minimizes FB API calls, which are limited. Event-finding workaround is query-intensive)
   
  Chooses specific events to look at in more detail
+ 
+ 
  
  How to run:
  
