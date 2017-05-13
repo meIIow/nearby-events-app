@@ -6,7 +6,7 @@ A demo-only app that can be used to find and filter FB events near a specified l
 Uses Angular2  with FB and Google Maps API integration.
 
 
-This project is a work-in-progress under active development. Can currently fetch events from FB based on input criteria verified by Google Maps, write them to temporary DB, and then retrieve them. Currently adding functionality to the component for filtering and viewing events. Also there is currently no styling.
+This project is a work-in-progress under active development. Can currently fetch events from FB based on input criteria verified by Google Maps, write them to temporary DB, and then retrieve them. Next step is to add functionality to the component for filtering and viewing events. There is no styling yet.
 
 
 How it works:
