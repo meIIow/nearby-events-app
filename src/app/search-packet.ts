@@ -3,8 +3,8 @@ export class SearchPacket {
   lat: string;
   lng: string;
   maxDistance: number;
-  startTime: number;
-  endTime: number;
+  startTime: Date;
+  endTime: Date;
   terms: string;
   name: string;
   coordsSet: boolean;

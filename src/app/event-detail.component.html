@@ -2,6 +2,20 @@
   <h3>Event Details</h3>
   <div><label>id: </label>{{selectedEvent.id}}</div>
   <div><label>Event: </label>{{selectedEvent.name}}</div>
+  <div><label>Details: </label>{{selectedEvent.description}}</div>
+  <div><label>Start Time: </label>{{selectedEvent.start_time}}</div>
+  <div><label>End Time: </label>{{selectedEvent.end_time}}</div>
+
+  <div><label>Place: </label>{{selectedEvent.place.name}}</div>
+
+  <div *ngIf="selectedEvent.place.location">
+
+  <div><label>City: </label>{{selectedEvent.place.location.city}}</div>
+  <div><label>Street: </label>{{selectedEvent.place.location.street}}</div>
+  <div><label>Address: </label>{{selectedEvent.place.location.street}}</div>
+
+  </div>
+
   <!--
   <div><label>Description: </label>{{selectedEvent.description}}</div>
   <div><label>Location: </label>{{selectedEvent.location}}</div>

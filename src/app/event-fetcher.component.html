@@ -34,14 +34,18 @@
     {{geocodePacket.formatted_address}}
   </div>
 
+
   <div>
     <label>Within two weeks of: </label>
-    <input type="date" [(ngModel)]="fetcherSearch.centerDate" placeholder="starts by">
-    {{fetcherSearch.centerDate}}
+    <input #dateInput
+    [ngModel]="fetcherSearch.centerDate | date:'yyyy-MM-dd'"
+    (ngModelChange)="updateDate(dateInput.value)"
+    type="date"
+    name="fetcherSearch.centerDate"/>
   </div>
 
 
-
+  <!--
   <div>
     <label>Starts By: </label>
     <input [(ngModel)]="fetcherSearch.startTime" placeholder="starts by">
@@ -50,7 +54,7 @@
     <label>Ends By: </label>
     <input [(ngModel)]="fetcherSearch.endTime" placeholder="ends by">
   </div>
-
+  -->
 
   <!--
   <div

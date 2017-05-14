@@ -41,14 +41,14 @@ export class EventFetcherComponent  implements OnInit{
 
   ngOnInit(): void {
     this.fetcherSearch = {
-      terms: 'ZZZ',
-      centerCoordinates: 'YYY',
+      terms: '',
+      centerCoordinates: '1965 Fletcher Avenue',
       lat: "",
       lng: "",
-      maxDistance: 1600, // 1 mile default
-      startTime: 0,
-      endTime: 0,
-      name: 'ZZZ',
+      maxDistance: 400, // 1 mile default
+      startTime: new Date(),
+      endTime: new Date(),
+      name: '',
       coordsSet: false,
       maxDistSet: false,
       centerDate: new Date(),
@@ -57,6 +57,9 @@ export class EventFetcherComponent  implements OnInit{
     this.facebookService.loadAndInitFBSDK();
     this.allPlaces = [];
     this.allEvents = [];
+
+
+    this.updateDateRange();
 
     //this.latLongTest = {hat: "fedora"}; //delete this soon
   }
@@ -70,6 +73,23 @@ export class EventFetcherComponent  implements OnInit{
 
   checkAddress(): void {
     this.addressToGeocode(this.fetcherSearch.centerCoordinates);
+  }
+
+  updateDate(dateInput: string): void {
+    //console.log(dateInput);
+
+    var dateInputArray = dateInput.split("-");
+
+    this.fetcherSearch.centerDate = new Date(
+      parseInt(dateInputArray[0]), parseInt(dateInputArray[1]), parseInt(dateInputArray[2])
+    )
+
+    this.updateDateRange();
+  }
+
+  updateDateRange(): void {
+    this.fetcherSearch.startTime.setDate(this.fetcherSearch.centerDate.getDate() - 28);
+    this.fetcherSearch.endTime.setDate(this.fetcherSearch.centerDate.getDate() + 28);
   }
 
   checkInputs(): void {
@@ -158,6 +178,10 @@ export class EventFetcherComponent  implements OnInit{
   getFacebookEvents(): void{
     console.log("from places to events");
     console.log(this.allPlaces);
+
+    //this.fetcherSearch.startTime.setDate(this.fetcherSearch.centerDate.getDate() - 28);
+    //this.fetcherSearch.endTime.setDate(this.fetcherSearch.centerDate.getDate() + 28);
+
     var placesToCheck = this.allPlaces.length;
     for (var i = 0; i < placesToCheck; i ++) {
       var currentPlace = this.allPlaces[i];
@@ -270,20 +294,14 @@ export class EventFetcherComponent  implements OnInit{
         parseInt(eventEndArray[0]), parseInt(eventEndArray[1]), parseInt(eventEndArray[2])
       )
 
-      var notBefore = new Date();
-      var notAfter = new Date();
-
-      notBefore.setDate(this.fetcherSearch.centerDate.getDate() - 28);
-      notAfter.setDate(this.fetcherSearch.centerDate.getDate() + 28);
-
-      console.log(notBefore);
-      console.log(notAfter);
+      console.log(this.fetcherSearch.startTime);
+      console.log(this.fetcherSearch.endTime);
       console.log(eventEndDate);
       console.log(eventStartDate);
 
       //return true;
 
-      if (notBefore <= eventStartDate && notAfter >= eventEndDate) {
+      if (this.fetcherSearch.startTime <= eventStartDate && this.fetcherSearch.endTime >= eventEndDate) {
         return true;
       } else {
         return false;

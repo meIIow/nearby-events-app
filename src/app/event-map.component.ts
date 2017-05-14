@@ -87,23 +87,22 @@ export class EventMapComponent  implements OnChanges{
       });
 
       if (this.selectedEvent) {
+        if (this.selectedEvent.place.location) {
+          console.log("map knows an event was selected");
+          var eventLatLang = new google.maps.LatLng(
+            parseFloat(this.selectedEvent.place.location.latitude),
+            parseFloat(this.selectedEvent.place.location.longitude)
+          )
 
-        console.log("map knows an event was selected");
+          console.log(this.selectedEvent.place.location.latitude);
+          console.log(this.selectedEvent.place.location.longitude);
 
-
-        var eventLatLang = new google.maps.LatLng(
-          parseFloat(this.selectedEvent.place.location.latitude),
-          parseFloat(this.selectedEvent.place.location.longitude)
-        )
-
-        console.log(this.selectedEvent.place.location.latitude);
-        console.log(this.selectedEvent.place.location.longitude);
-
-        var eventMarker = new google.maps.Marker({
-          position: eventLatLang,
-          title: "Selected Event",
-          map: map
-        });
+          var eventMarker = new google.maps.Marker({
+            position: eventLatLang,
+            title: "Selected Event",
+            map: map
+          });
+        }
       }
 
       var circle = new google.maps.Circle({

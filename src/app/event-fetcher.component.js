@@ -27,14 +27,14 @@ var EventFetcherComponent = (function () {
     }
     EventFetcherComponent.prototype.ngOnInit = function () {
         this.fetcherSearch = {
-            terms: 'ZZZ',
-            centerCoordinates: 'YYY',
+            terms: '',
+            centerCoordinates: '1965 Fletcher Avenue',
             lat: "",
             lng: "",
-            maxDistance: 1600,
-            startTime: 0,
-            endTime: 0,
-            name: 'ZZZ',
+            maxDistance: 400,
+            startTime: new Date(),
+            endTime: new Date(),
+            name: '',
             coordsSet: false,
             maxDistSet: false,
             centerDate: new Date(),
@@ -43,6 +43,7 @@ var EventFetcherComponent = (function () {
         this.facebookService.loadAndInitFBSDK();
         this.allPlaces = [];
         this.allEvents = [];
+        this.updateDateRange();
         //this.latLongTest = {hat: "fedora"}; //delete this soon
     };
     /*
@@ -53,6 +54,16 @@ var EventFetcherComponent = (function () {
     */
     EventFetcherComponent.prototype.checkAddress = function () {
         this.addressToGeocode(this.fetcherSearch.centerCoordinates);
+    };
+    EventFetcherComponent.prototype.updateDate = function (dateInput) {
+        //console.log(dateInput);
+        var dateInputArray = dateInput.split("-");
+        this.fetcherSearch.centerDate = new Date(parseInt(dateInputArray[0]), parseInt(dateInputArray[1]), parseInt(dateInputArray[2]));
+        this.updateDateRange();
+    };
+    EventFetcherComponent.prototype.updateDateRange = function () {
+        this.fetcherSearch.startTime.setDate(this.fetcherSearch.centerDate.getDate() - 28);
+        this.fetcherSearch.endTime.setDate(this.fetcherSearch.centerDate.getDate() + 28);
     };
     EventFetcherComponent.prototype.checkInputs = function () {
         if (this.geocodePacket) {
@@ -134,6 +145,8 @@ var EventFetcherComponent = (function () {
         var _this = this;
         console.log("from places to events");
         console.log(this.allPlaces);
+        //this.fetcherSearch.startTime.setDate(this.fetcherSearch.centerDate.getDate() - 28);
+        //this.fetcherSearch.endTime.setDate(this.fetcherSearch.centerDate.getDate() + 28);
         var placesToCheck = this.allPlaces.length;
         for (var i = 0; i < placesToCheck; i++) {
             var currentPlace = this.allPlaces[i];
@@ -228,16 +241,12 @@ var EventFetcherComponent = (function () {
             var eventEndArray = eventEndString.split("-");
             var eventStartDate = new Date(parseInt(eventStartArray[0]), parseInt(eventStartArray[1]), parseInt(eventStartArray[2]));
             var eventEndDate = new Date(parseInt(eventEndArray[0]), parseInt(eventEndArray[1]), parseInt(eventEndArray[2]));
-            var notBefore = new Date();
-            var notAfter = new Date();
-            notBefore.setDate(this.fetcherSearch.centerDate.getDate() - 28);
-            notAfter.setDate(this.fetcherSearch.centerDate.getDate() + 28);
-            console.log(notBefore);
-            console.log(notAfter);
+            console.log(this.fetcherSearch.startTime);
+            console.log(this.fetcherSearch.endTime);
             console.log(eventEndDate);
             console.log(eventStartDate);
             //return true;
-            if (notBefore <= eventStartDate && notAfter >= eventEndDate) {
+            if (this.fetcherSearch.startTime <= eventStartDate && this.fetcherSearch.endTime >= eventEndDate) {
                 return true;
             }
             else {

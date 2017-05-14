@@ -6,16 +6,40 @@
   </div>
   <div>
     <label>terms: </label>
-    <input [(ngModel)]="currentSearch.terms" placeholder="term">
+    <input [(ngModel)]="currentSearch.terms" placeholder="terms">
   </div>
   <div>
     <label>Starts By: </label>
-    <input [(ngModel)]="currentSearch.startTime" placeholder="starts by">
+    <input #startTimeInput
+      [ngModel]="currentSearch.startTime | date:'HH:mm'"
+      (ngModelChange)="updateDateTime(startTimeInput.value, 'startTimeTag')"
+      type="time"
+      name="currentSearch.startTime"/>
+
+    <label>On: </label>
+    <input #startDateInput
+      [ngModel]="currentSearch.startTime | date:'yyyy-MM-dd'"
+      (ngModelChange)="updateDate(startDateInput.value, 'startTimeTag')"
+      type="date"
+      name="currentSearch.startTime"/>
   </div>
   <div>
     <label>Ends By: </label>
-    <input [(ngModel)]="currentSearch.endTime" placeholder="ends by">
+    <input #endTimeInput
+      [ngModel]="currentSearch.endTime | date:'HH:mm'"
+      (ngModelChange)="updateDateTime(endTimeInput.value, 'endTimeTag')"
+      type="time"
+      name="currentSearch.endTime"/>
+
+    <label>On: </label>
+    <input #endDateInput
+      [ngModel]="currentSearch.endTime | date:'yyyy-MM-dd'"
+      (ngModelChange)="updateDate(endDateInput.value, 'endTimeTag')"
+      type="date"
+      name="currentSearch.endTime"/>
   </div>
+
+  <!-- possibly add location filtering eventually
   <div>
     <label>Within this many Miles: </label>
     <input [(ngModel)]="currentSearch.maxDistance" placeholder="miles">
@@ -24,10 +48,15 @@
     <label>of: </label>
     <input [(ngModel)]="currentSearch.centerCoordinates" placeholder="center">
   </div>
+-->
 </div>
 
-<button (click)="filterEvents();">
+<button (click)="filterEvents2();">
     Filter
+</button>
+
+<button (click)="filterEvents();">
+    Filter Test
 </button>
 
 <button (click)="getEventsAndDefault();">
