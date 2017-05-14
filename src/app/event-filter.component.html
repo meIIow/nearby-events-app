@@ -54,7 +54,7 @@
 <button (click)="filterEvents2();">
     Filter
 </button>
-
+<!--
 <button (click)="filterEvents();">
     Filter Test
 </button>
@@ -62,24 +62,20 @@
 <button (click)="getEventsAndDefault();">
     Get
 </button>
-
+-->
 <button (click)="backToFetcher();">
     Back
 </button>
 
-
-<div>{{testNumber}}</div>
-<div>4</div>
-
+<!--
 <div *ngIf="events">
   Have Events!
 </div>
-
 <div *ngIf="selectedEvent">
   An Event is Selected!
   {{selectedEvent.name}}
 </div>
-
+-->
 <event-map
   [events]="events"
   [selectedEvent]="selectedEvent"

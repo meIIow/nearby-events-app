@@ -33,6 +33,7 @@ var EventFilterComponent = (function () {
             lng: '',
             centerDate: new Date(),
         };
+        console.log(this.currentSearch.startTime);
         this.mapSize = 12;
         this.getEventsAndDefault();
     };
@@ -46,23 +47,31 @@ var EventFilterComponent = (function () {
             if (data.length > 5) {
                 _this.currentSearch = data[4];
                 _this.geocodePacket = data[5];
+                console.log(_this.currentSearch.startTime);
+                console.log(_this.currentSearch.endTime);
+                console.log(_this.currentSearch.centerDate);
+                _this.currentSearch.startTime = _this.dateStringToObject(data[4].startTime);
+                _this.currentSearch.endTime = _this.dateStringToObject(data[4].endTime);
+                _this.currentSearch.centerDate = _this.dateStringToObject(data[4].centerDate);
+                console.log(_this.currentSearch.startTime);
+                console.log(_this.currentSearch.endTime);
+                console.log(_this.currentSearch.centerDate);
             }
             console.log(_this.events);
             console.log(_this.currentSearch);
         });
         this.testNumber = 6;
     };
+    EventFilterComponent.prototype.dateStringToObject = function (dateString) {
+        var dateVsTime = dateString.split("T");
+        var dateInfo = dateVsTime[0].split('-');
+        var timeInfo = dateVsTime[1].split(':');
+        var thisDate = new Date(parseInt(dateInfo[0]), parseInt(dateInfo[1]) - 1, parseInt(dateInfo[2]), parseInt(timeInfo[0]), parseInt(timeInfo[1]));
+        return thisDate;
+    };
     EventFilterComponent.prototype.filterEvents2 = function () {
         console.log(this.allEvents);
         this.events.length = 0;
-        /*
-        for (var eventToCheck of this.allEvents) {
-          console.log(eventToCheck);
-          if (this.checkEvent(eventToCheck)) {
-            this.events.push(eventToCheck);
-          }
-        }
-        */
         for (var _i = 0, _a = this.allEvents; _i < _a.length; _i++) {
             var eventToCheck = _a[_i];
             console.log(eventToCheck);
@@ -133,11 +142,9 @@ var EventFilterComponent = (function () {
             }
         }
         //check for start and end time
-        /*
         if (!this.isInTimeWindow(event)) {
-          match = false;
+            match = false;
         }
-        */
         return match;
     };
     EventFilterComponent.prototype.isInTimeWindow = function (event) {
@@ -157,14 +164,15 @@ var EventFilterComponent = (function () {
             var eventEndTimeArray = endDateVsTime[1].split(":");
             eventStartInfo = eventStartDateArray.concat(eventStartTimeArray);
             eventEndInfo = eventEndDateArray.concat(eventEndTimeArray);
-            var eventStartDate = new Date(parseInt(eventStartInfo[0]), parseInt(eventStartInfo[1]), parseInt(eventStartInfo[2]), parseInt(eventStartInfo[3]), parseInt(eventStartInfo[4]));
-            var eventEndDate = new Date(parseInt(eventEndInfo[0]), parseInt(eventEndInfo[1]), parseInt(eventEndInfo[2]), parseInt(eventEndInfo[3]), parseInt(eventEndInfo[4]));
+            var eventStartDate = new Date(parseInt(eventStartInfo[0]), parseInt(eventStartInfo[1]) - 1, parseInt(eventStartInfo[2]), parseInt(eventStartInfo[3]), parseInt(eventStartInfo[4]));
+            var eventEndDate = new Date(parseInt(eventEndInfo[0]), parseInt(eventEndInfo[1]) - 1, parseInt(eventEndInfo[2]), parseInt(eventEndInfo[3]), parseInt(eventEndInfo[4]));
             console.log(this.currentSearch.startTime);
             console.log(this.currentSearch.endTime);
             console.log(eventEndDate);
             console.log(eventStartDate);
             //return true;
-            if (this.currentSearch.startTime <= eventStartDate && this.currentSearch.endTime >= eventEndDate) {
+            if (this.currentSearch.startTime <= eventEndDate && this.currentSearch.endTime >= eventStartDate) {
+                console.log("match");
                 return true;
             }
             else {
@@ -191,6 +199,7 @@ var EventFilterComponent = (function () {
     EventFilterComponent.prototype.updateDate = function (dateInput, dateToUpdate) {
         //console.log(dateInput);
         //console.log(dateToUpdate);
+        console.log("UPDATING DATE");
         console.log(this.currentSearch.endTime);
         if (dateInput.length < 3) {
             return false;
@@ -200,13 +209,13 @@ var EventFilterComponent = (function () {
             var timeInfo = [];
             timeInfo.push(this.currentSearch.startTime.getHours());
             timeInfo.push(this.currentSearch.startTime.getMinutes());
-            this.currentSearch.startTime = new Date(parseInt(dateInputArray[0]), parseInt(dateInputArray[1]), parseInt(dateInputArray[2]), timeInfo[0], timeInfo[1]);
+            this.currentSearch.startTime = new Date(parseInt(dateInputArray[0]), parseInt(dateInputArray[1]) - 1, parseInt(dateInputArray[2]), timeInfo[0], timeInfo[1]);
         }
         else if (dateToUpdate == "endTimeTag") {
             var timeInfo = [];
             timeInfo.push(this.currentSearch.endTime.getHours());
             timeInfo.push(this.currentSearch.endTime.getMinutes());
-            this.currentSearch.endTime = new Date(parseInt(dateInputArray[0]), parseInt(dateInputArray[1]), parseInt(dateInputArray[2]), timeInfo[0], timeInfo[1]);
+            this.currentSearch.endTime = new Date(parseInt(dateInputArray[0]), parseInt(dateInputArray[1]) - 1, parseInt(dateInputArray[2]), timeInfo[0], timeInfo[1]);
         }
         else {
             console.log("dateframe update failed");

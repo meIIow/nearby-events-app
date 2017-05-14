@@ -58,18 +58,10 @@ export class EventFetcherComponent  implements OnInit{
     this.allPlaces = [];
     this.allEvents = [];
 
-
+    this.myTestService.resetDB();
     this.updateDateRange();
 
-    //this.latLongTest = {hat: "fedora"}; //delete this soon
   }
-
-  /*
-    login button only at first  -> it dissapears, check address button appears
-    check address -> there if no geopacket OR lastAddress != current centerCoordinates
-    click check inputs before go button appears
-
-  */
 
   checkAddress(): void {
     this.addressToGeocode(this.fetcherSearch.centerCoordinates);
@@ -254,7 +246,8 @@ export class EventFetcherComponent  implements OnInit{
       this.myTestService.getEvents()
         .then((events: any) => {
           this.xxxxx = events;
-          this.whyMe();
+          this.dbCheck();
+          this.goToFilter();
         }
       );
     } else {
@@ -287,11 +280,11 @@ export class EventFetcherComponent  implements OnInit{
       var eventEndArray = eventEndString.split("-");
 
       var eventStartDate = new Date(
-        parseInt(eventStartArray[0]), parseInt(eventStartArray[1]), parseInt(eventStartArray[2])
+        parseInt(eventStartArray[0]), parseInt(eventStartArray[1])-1, parseInt(eventStartArray[2])
       )
 
       var eventEndDate = new Date(
-        parseInt(eventEndArray[0]), parseInt(eventEndArray[1]), parseInt(eventEndArray[2])
+        parseInt(eventEndArray[0]), parseInt(eventEndArray[1])-1, parseInt(eventEndArray[2])
       )
 
       console.log(this.fetcherSearch.startTime);
@@ -299,27 +292,19 @@ export class EventFetcherComponent  implements OnInit{
       console.log(eventEndDate);
       console.log(eventStartDate);
 
-      //return true;
-
       if (this.fetcherSearch.startTime <= eventStartDate && this.fetcherSearch.endTime >= eventEndDate) {
         return true;
       } else {
         return false;
       }
-
-      /*
-      if ( true) {
-        return true;
-      } else {
-        return false;
-      }
-      */
     }
 
     // "2013-12-07T00:00:00-0800"
     // year-month-day
   }
-/*
+  /*
+  //for testing event retrieval and DB Update / Retrieval
+
   eventTest(){
     var self = this;
     var query = "/";
@@ -336,13 +321,15 @@ export class EventFetcherComponent  implements OnInit{
         self.myTestService.pushEvent(thisEvent);
         var theseEvents;
         self.myTestService.getEvents().then(events => self.xxxxx = events);
+        this.dbCheck();
       } else {
         console.log("NO EVENT");
       }
     });
   }
-*/
-  whyMe(): void {
+  */
+
+  dbCheck(): void {
     console.log("Did my DB work?");
     console.log(this.xxxxx);
   }
@@ -388,41 +375,4 @@ export class EventFetcherComponent  implements OnInit{
   goToFilter(): void {
     this.router.navigate(['/event-filter']);
   }
-
-  /*
-  getHeroes(): void {
-    this.heroService.getHeroes().then(heroes => this.heroes = heroes);
-  }
-
-  ngOnInit(): void {
-    this.getHeroes();
-  }
-
-  delete(hero: Hero): void {
-    this.heroService
-        .delete(hero.id)
-        .then(() => {
-          this.heroes = this.heroes.filter(h => h !== hero);
-          if (this.selectedHero === hero) { this.selectedHero = null; }
-        });
-  }
-
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-  }
-
-  add(name: string): void {
-    name = name.trim();
-    if (!name) { return; }
-    this.heroService.create(name)
-      .then(hero => {
-        this.heroes.push(hero);
-        this.selectedHero = null;
-      });
-  }
-
-  gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedHero.id]);
-  }
-  */
 }

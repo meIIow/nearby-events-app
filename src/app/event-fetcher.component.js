@@ -43,15 +43,9 @@ var EventFetcherComponent = (function () {
         this.facebookService.loadAndInitFBSDK();
         this.allPlaces = [];
         this.allEvents = [];
+        this.myTestService.resetDB();
         this.updateDateRange();
-        //this.latLongTest = {hat: "fedora"}; //delete this soon
     };
-    /*
-      login button only at first  -> it dissapears, check address button appears
-      check address -> there if no geopacket OR lastAddress != current centerCoordinates
-      click check inputs before go button appears
-  
-    */
     EventFetcherComponent.prototype.checkAddress = function () {
         this.addressToGeocode(this.fetcherSearch.centerCoordinates);
     };
@@ -213,7 +207,8 @@ var EventFetcherComponent = (function () {
             this.myTestService.getEvents()
                 .then(function (events) {
                 _this.xxxxx = events;
-                _this.whyMe();
+                _this.dbCheck();
+                _this.goToFilter();
             });
         }
         else {
@@ -239,13 +234,12 @@ var EventFetcherComponent = (function () {
             eventEndString.split("T").pop();
             var eventStartArray = eventStartString.split("-");
             var eventEndArray = eventEndString.split("-");
-            var eventStartDate = new Date(parseInt(eventStartArray[0]), parseInt(eventStartArray[1]), parseInt(eventStartArray[2]));
-            var eventEndDate = new Date(parseInt(eventEndArray[0]), parseInt(eventEndArray[1]), parseInt(eventEndArray[2]));
+            var eventStartDate = new Date(parseInt(eventStartArray[0]), parseInt(eventStartArray[1]) - 1, parseInt(eventStartArray[2]));
+            var eventEndDate = new Date(parseInt(eventEndArray[0]), parseInt(eventEndArray[1]) - 1, parseInt(eventEndArray[2]));
             console.log(this.fetcherSearch.startTime);
             console.log(this.fetcherSearch.endTime);
             console.log(eventEndDate);
             console.log(eventStartDate);
-            //return true;
             if (this.fetcherSearch.startTime <= eventStartDate && this.fetcherSearch.endTime >= eventEndDate) {
                 return true;
             }
@@ -257,29 +251,32 @@ var EventFetcherComponent = (function () {
         // year-month-day
     };
     /*
-      eventTest(){
-        var self = this;
-        var query = "/";
-        var id = "124809187539278";
-        query += id;
-        query += "/events";
-        FB.api(query, function (response: any) {
-    
-          if (response && !response.error) {
-            // handle the result
-            console.log("I GOT AN EVENT");
-            console.log(response);
-            var thisEvent = response.data[0];
-            self.myTestService.pushEvent(thisEvent);
-            var theseEvents;
-            self.myTestService.getEvents().then(events => self.xxxxx = events);
-          } else {
-            console.log("NO EVENT");
-          }
-        });
-      }
+    //for testing event retrieval and DB Update / Retrieval
+  
+    eventTest(){
+      var self = this;
+      var query = "/";
+      var id = "124809187539278";
+      query += id;
+      query += "/events";
+      FB.api(query, function (response: any) {
+  
+        if (response && !response.error) {
+          // handle the result
+          console.log("I GOT AN EVENT");
+          console.log(response);
+          var thisEvent = response.data[0];
+          self.myTestService.pushEvent(thisEvent);
+          var theseEvents;
+          self.myTestService.getEvents().then(events => self.xxxxx = events);
+          this.dbCheck();
+        } else {
+          console.log("NO EVENT");
+        }
+      });
+    }
     */
-    EventFetcherComponent.prototype.whyMe = function () {
+    EventFetcherComponent.prototype.dbCheck = function () {
         console.log("Did my DB work?");
         console.log(this.xxxxx);
     };

@@ -9,21 +9,6 @@
 </button>
 
 <div>
-  <!--
-  <div>
-    <label>Starts By: </label>
-    <input type="time" [(ngModel)]="fetcherSearch.startTime" placeholder="starts by">
-    <label>On: </label>
-    <input type="date" [(ngModel)]="fetcherSearch.startTime" placeholder="starts by">
-  </div>
-  <div>
-    <label>Ends By: </label>
-    <input type="time" [(ngModel)]="fetcherSearch.endTime" placeholder="ends by">
-    <label>On: </label>
-    <input type="date" [(ngModel)]="fetcherSearch.endTime" placeholder="ends by">
-  </div>
--->
-
   <div>
     <label>Within </label>
     <input select type="number" [(ngModel)]="fetcherSearch.maxDistance" placeholder="miles">
@@ -34,7 +19,6 @@
     {{geocodePacket.formatted_address}}
   </div>
 
-
   <div>
     <label>Within two weeks of: </label>
     <input #dateInput
@@ -43,35 +27,6 @@
     type="date"
     name="fetcherSearch.centerDate"/>
   </div>
-
-
-  <!--
-  <div>
-    <label>Starts By: </label>
-    <input [(ngModel)]="fetcherSearch.startTime" placeholder="starts by">
-  </div>
-  <div>
-    <label>Ends By: </label>
-    <input [(ngModel)]="fetcherSearch.endTime" placeholder="ends by">
-  </div>
-  -->
-
-  <!--
-  <div
-    class="fb-like"
-    data-share="true"
-    data-width="450"
-    data-show-faces="true">
-  </div>
-  -->
-  <!--
-  <div>
-    <label>Within </label>
-    <input [(ngModel)]="fetcherSearch.maxDistance" placeholder="miles">
-    <label> Miles of : </label>
-    <input [(ngModel)]="fetcherSearch.centerCoordinates" placeholder="center">
-  </div>
--->
 </div>
 
 <button *ngIf="!geocodePacket" (click)="checkAddress();">
@@ -90,42 +45,26 @@
     Get Places -> events -> (send to database) (3)
 </button>
 
-
-
-<button (click)="goToFilter();">
-    Go!
-</button>
-
+<!-- For testing geocoding functionality -->
+<!--
 <button (click)="addressToGeocode('1965 Fletcher Avenue, South Pasadena, CA', latLongTest);">
     Fletcher Check
 </button>
+-->
 
+<!-- For testing FB Event retrieval and DB update / retrieval. Uncomment eventText() in event-fetcher.component.ts -->
 <!--
 <button (click)="eventTest();">
     Test - Push one Event to DB
 </button>
-
-<button (click)="whyMe();">
-    DB Check Part 2 - get events back
-</button>
 -->
+
+<!-- To force DOM Update, for testing -->
+<!--
 <button (click)="manualCheck();">
     Update DOM
 </button>
-
-
-<div *ngIf="fetcherSearch">
-  Have Events!
-</div>
-
-<div *ngIf="username">
-  {{username}}
-</div>
-
-<div *ngIf="geocodePacket">
-  Got Something!
-  {{geocodePacket.formatted_address}}
-</div>
+-->
 
 <event-map
   [currentSearch]="fetcherSearch"
